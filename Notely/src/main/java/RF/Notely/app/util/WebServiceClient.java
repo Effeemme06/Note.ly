@@ -12,6 +12,8 @@ import RF.Notely.app.errors.WebServiceException;
 import RF.Notely.app.model.AuthenticationResult;
 import RF.Notely.app.model.Authenticator;
 import RF.Notely.app.model.REQUESTS;
+import RF.Notely.app.model.RequestMode;
+import RF.Notely.app.model.RequestMode.Mode;
 import RF.Notely.app.util.XmlUtils;
 import jakarta.xml.bind.JAXBException;
 
@@ -19,10 +21,12 @@ public class WebServiceClient {
 	private String baseUrl;
 	private HttpClient client;
 	private Authenticator AUTH;
+	private RequestMode RQST_MTHD;
 
 	public WebServiceClient(String baseUrl) {
 		this.baseUrl = baseUrl;
 		this.client = HttpClient.newHttpClient();
+		this.RQST_MTHD = new RequestMode(Mode.XML_REQUEST_METHOD);
 	}
 
 	public AuthenticationResult authenticateClient(String username, String password) throws JAXBException, WebServiceException, IOException, InterruptedException, URISyntaxException {
@@ -44,6 +48,10 @@ public class WebServiceClient {
 	public void setAuthenticator(Authenticator authenticator) {
 		// TODO Auto-generated method stub
 		this.AUTH = authenticator;
+	}
+
+	public void swapXML_JSON() {
+		this.RQST_MTHD.swap();
 	}
 	
 	
