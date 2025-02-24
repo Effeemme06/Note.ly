@@ -9,7 +9,7 @@ public class Notely {
     private WebServiceClient WSC;
     
     private Notely() {
-    	WSC = new WebServiceClient("http://localhost/Notely/src/main/php/note.php");
+    	WSC = new WebServiceClient("http://localhost/Note.ly/Notely/src/main/php/note.php");
     	AUTH = new Authenticator();
     }
 
