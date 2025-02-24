@@ -1,4 +1,6 @@
-package RF.Notely;
+package RF.Notely.app;
+
+import RF.Notely.app.model.Notely;
 
 /**
  * Hello world!
@@ -8,6 +10,6 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+    	Notely.getInstance().start();
     }
 }
