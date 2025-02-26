@@ -79,10 +79,11 @@ public class Authenticator {
 		System.out.println("============== Registration ==============");
 		
 		boolean status = false;
+		String user = "";
 		
 		while(status == false) {
 			System.out.println("\nInsert the username: ");
-			String user = input.nextLine();
+			user = input.nextLine();
 			try {
 				status = WSC.checkUsername(user);
 			} catch (JAXBException | WebServiceException | IOException | InterruptedException | URISyntaxException e) {
@@ -95,13 +96,21 @@ public class Authenticator {
 				System.out.println("\nUsername already in use!");
 			}
 			
-			System.out.println("\nInsert your name: ");
-			String nome = input.nextLine();
-			
-			System.out.println("\nInsert your surname: ");
-			String cognome = input.nextLine();
-			
 		}
+		
+		System.out.println("\nInsert your name: ");
+		String nome = input.nextLine();
+		
+		System.out.println("\nInsert your surname: ");
+		String cognome = input.nextLine();
+		
+		try {
+			WSC.registerUser(user, nome, cognome);
+		} catch (JAXBException | WebServiceException | IOException | InterruptedException | URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		
 	}
