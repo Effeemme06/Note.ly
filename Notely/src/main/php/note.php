@@ -4,6 +4,8 @@ $conn = new mysqli("localhost", "root", "", "notely");
 
 function isTokenUsed($token){
 
+    global $conn;
+
     $sql = "SELECT COUNT(*) AS num FROM utente WHERE utente.token = ?";
     $stmt = $conn->prepare($sql);
     
@@ -22,7 +24,7 @@ function isTokenUsed($token){
 
 }
 
-function generateToken($length = 6) {
+function generateToken($length = 16) {
     
     do{
         $token = substr(bin2hex(random_bytes($length)), 0, $length);
@@ -137,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             
             if ($stmt->execute()) {
 
-                $sql2 = "SELECT COUNT(*) AS num FROM utente WHERE utente.login = ?";
+                $sql2 = "SELECT id FROM utente WHERE utente.login = ?";
                 $stmt2 = $conn->prepare($sql2);
                 
                 $stmt2->bind_param("s", $_POST["username"]);
