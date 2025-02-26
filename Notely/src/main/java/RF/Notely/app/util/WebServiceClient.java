@@ -61,10 +61,10 @@ public class WebServiceClient {
 	}
 	
 	public AuthenticationResult registerUser(String login, String nome, String cognome) throws JAXBException, WebServiceException, IOException, InterruptedException, URISyntaxException {
-		String query = REQUESTS.ADD_USER.buildQuery(login, nome, cognome).substring(1)+RQST_MTHD.getMode();
+		String query = REQUESTS.ADD_USER.buildQuery(login, nome, cognome).substring(1);
 		URI uri = new URI(this.baseUrl);
 		
-		HttpRequest req = HttpRequest.newBuilder().uri(uri).POST(HttpRequest.BodyPublishers.ofString(query)).build();
+		HttpRequest req = HttpRequest.newBuilder().uri(uri).header("Content-Type", "application/x-www-form-urlencoded").POST(HttpRequest.BodyPublishers.ofString(query)).build();
 		HttpResponse<String> res = this.client.send(req, BodyHandlers.ofString());
 
 		if (res.statusCode() != 200)
