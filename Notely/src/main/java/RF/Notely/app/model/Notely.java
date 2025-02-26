@@ -14,7 +14,7 @@ public class Notely {
     private Scanner user_input;
     
     private Notely() {
-    	WSC = new WebServiceClient("http://localhost/Note.ly/Notely/src/main/php/note.php");
+    	WSC = new WebServiceClient("http://localhost/Notely/Notely/src/main/php/note.php");
     	AUTH = new Authenticator();
     	user_input = new Scanner(System.in);
     }
