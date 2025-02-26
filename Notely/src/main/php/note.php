@@ -2,6 +2,35 @@
 
 $conn = new mysqli("localhost", "root", "", "notely");
 
+function isTokenUsed($token){
+
+    $sql = "SELECT COUNT(*) AS num FROM utente WHERE utente.token = ?";
+    $stmt = $conn->prepare($sql);
+    
+    $stmt->bind_param("s", $token);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    if (isset($row['num']) && $row['num']==0) {
+        return false;
+    }else if($row['num']>0){
+        return true;
+    }else{
+        return false;
+    }
+
+}
+
+function generateToken($length = 6) {
+    
+    do{
+        $token = substr(bin2hex(random_bytes($length)), 0, $length);
+    }while(isTokenUsed($token)==true);
+
+    return $token;
+}
+
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
     if (isset($_GET["auth"])) {
 
@@ -90,41 +119,51 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
     }
 
-    
+
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    else if (isset($_GET["addUser"])) {
+    if (isset($_POST["addUser"])) {
 
-        if(isset($_GET["username"]) && isset($_GET["name"]) && isset($_GET["surname"]) && isset($_GET["mod"])){
+        if(isset($_POST["username"]) && isset($_POST["name"]) && isset($_POST["surname"]) && isset($_POST["mod"])){
             $xml = new SimpleXMLElement('<AuthenticationResults/>');
+
+            $token = generateToken();
             
-            $sql = "INSERT INTO utente (login, token, nome, cognome) VALUES (?, ?, ?);";
+            $sql = "INSERT INTO utente (login, token, nome, cognome) VALUES (?, ?, ?, ?);";
             $stmt = $conn->prepare($sql);
             
-            $stmt->bind_param("sss", $_GET["username"]);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $row = $result->fetch_assoc();
+            $stmt->bind_param("ssss", $_POST["username"], $token, $_POST["name"], $_POST["surname"]);
             
-            if (isset($row['num']) && $row['num']==0) {
+            if ($stmt->execute()) {
+
+                $sql2 = "SELECT COUNT(*) AS num FROM utente WHERE utente.login = ?";
+                $stmt2 = $conn->prepare($sql2);
+                
+                $stmt2->bind_param("s", $_POST["username"]);
+                $stmt2->execute();
+                $result2 = $stmt2->get_result();
+                $row2 = $result2->fetch_assoc();
+
+                $id = $row2['id'];
                 $xml->addChild('success', 'true');
-                $xml->addChild('message', 'Username disponibile!');
+                $xml->addChild('userID', $id);
+                $xml->addChild('message', 'Utente inserito con successo (token: "'.$token.'")');
                 $xml->addChild('error', '');
                 http_response_code(200);
             } else {
                 $xml->addChild('success', 'false');
                 $xml->addChild('userID', "-1");
-                $xml->addChild('message', 'Username in uso');
-                $xml->addChild('error', 'Usarname already in use');
+                $xml->addChild('message', 'Utente non inserito');
+                $xml->addChild('error', 'Erro during the insertion');
                 http_response_code(401);
             }
             $stmt->close();
 
-            if($_GET["mod"]=="xml"){
+            if($_POST["mod"]=="xml"){
                 header('Content-Type: application/xml');
                 echo $xml->asXML();
-            }else if($_GET["mod"]=="json"){
+            }else if($_POST["mod"]=="json"){
                 header('Content-Type: application/json');
                 echo json_encode($xml);
             }
