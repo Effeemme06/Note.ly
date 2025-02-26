@@ -29,8 +29,8 @@ public class WebServiceClient {
 		this.RQST_MTHD = new RequestMode(Mode.XML_REQUEST_METHOD);
 	}
 
-	public AuthenticationResult authenticateClient(String username, String password) throws JAXBException, WebServiceException, IOException, InterruptedException, URISyntaxException {
-		String query = REQUESTS.AUTHENTICATE_USER.buildQuery(username, password);
+	public AuthenticationResult authenticateClient(String token) throws JAXBException, WebServiceException, IOException, InterruptedException, URISyntaxException {
+		String query = REQUESTS.AUTHENTICATE_USER.buildQuery(token);
 		URI uri = new URI(this.baseUrl + query);
 		
 		HttpRequest req = HttpRequest.newBuilder().uri(uri).GET().build();

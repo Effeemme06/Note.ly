@@ -17,9 +17,7 @@ public class Authenticator {
 	
 	private WebServiceClient WSC;
 	private Scanner input;
-	private String username;
-	private String password;
-	public Integer userID;
+	private String TOKEN;
 
 	public Authenticator() {
 		input = new Scanner(System.in);
@@ -34,7 +32,6 @@ public class Authenticator {
 				System.err.println("\n" + result.error);
 			}else {
 				System.out.println("\n" + result.message);
-				this.userID = result.userID;
 			}
 			System.out.println("===========================================");
 		} while (!result.success);
@@ -42,7 +39,7 @@ public class Authenticator {
 
 	private AuthenticationResult auth() {
 		try {
-			return WSC.authenticateClient(username, password);
+			return WSC.authenticateClient(TOKEN);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,10 +49,8 @@ public class Authenticator {
 
 	private void getCredentials() {
 		System.out.println("============== Authenticator ==============");
-		System.out.print("\tUsername: ");
-		this.username = input.nextLine();
-		System.out.print("\tPassword: ");
-		this.password = input.nextLine();
+		System.out.print("\tInsert Authentication Token: ");
+		this.TOKEN = input.nextLine();
 		
 	}
 
