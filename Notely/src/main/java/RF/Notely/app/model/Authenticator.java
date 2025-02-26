@@ -18,6 +18,7 @@ public class Authenticator {
 	private WebServiceClient WSC;
 	private Scanner input;
 	private String TOKEN;
+	private int selection;
 
 	public Authenticator() {
 		input = new Scanner(System.in);
@@ -26,7 +27,7 @@ public class Authenticator {
 	public void authenticate() {
 		AuthenticationResult result;
 		do {
-			getCredentials();
+			ShowOutMenu();
 			result = auth();
 			if(!result.success) {
 				System.err.println("\n" + result.error);
@@ -51,6 +52,32 @@ public class Authenticator {
 		System.out.println("============== Authenticator ==============");
 		System.out.print("\tInsert Authentication Token: ");
 		this.TOKEN = input.nextLine();
+		
+	}
+	
+	private void ShowOutMenu() {
+		
+			System.out.println("============== First Access ==============");
+			System.out.print("\n\tChoose an option:\n1. Insert token\n2. Register\n\n>>");
+			this.selection = input.nextInt();
+			switch (selection) {
+			case 1:
+				input.nextLine();
+				getCredentials();
+				break;
+			case 2:
+				RegisterNewUser();
+				break;
+			default:
+				System.out.println("Insert a valid option!");
+				break;
+			}
+	}
+	
+	private void RegisterNewUser() {
+		System.out.println("============== Registration ==============");
+		System.out.println("Insert the username: ");
+		String user = input.nextLine();
 		
 	}
 

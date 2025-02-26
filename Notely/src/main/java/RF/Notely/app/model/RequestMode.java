@@ -12,6 +12,14 @@ public class RequestMode {
 		this.mode = mode;
 	}
 	
+	public String getMode() {
+		if(mode.equals(Mode.XML_REQUEST_METHOD)) {
+			return "&mod=xml";
+		}else {
+			return "&mod=json";
+		}
+	}
+	
 	public void swap() {
 		if(mode.equals(Mode.XML_REQUEST_METHOD)) {
 			mode = Mode.JSON_REQUEST_METHOD;

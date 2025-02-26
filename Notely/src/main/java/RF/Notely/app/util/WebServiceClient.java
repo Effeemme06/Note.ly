@@ -31,7 +31,23 @@ public class WebServiceClient {
 
 	public AuthenticationResult authenticateClient(String token) throws JAXBException, WebServiceException, IOException, InterruptedException, URISyntaxException {
 		String query = REQUESTS.AUTHENTICATE_USER.buildQuery(token);
-		URI uri = new URI(this.baseUrl + query);
+		URI uri = new URI(this.baseUrl + query + RQST_MTHD.getMode());
+		
+		HttpRequest req = HttpRequest.newBuilder().uri(uri).GET().build();
+		HttpResponse<String> res = this.client.send(req, BodyHandlers.ofString());
+
+		if (res.statusCode() != 200)
+			throw new WebServiceException("HTTP status code: " + res.statusCode());
+
+		String body = (String) res.body();
+		// System.out.println("received: " + body);
+		return XmlUtils.unmarshal(AuthenticationResult.class, body);
+		
+	}
+	
+	public AuthenticationResult registerUser(String login, String nome, String cognome) throws JAXBException, WebServiceException, IOException, InterruptedException, URISyntaxException {
+		String query = REQUESTS.AUTHENTICATE_USER.buildQuery(login, nome, cognome);
+		URI uri = new URI(this.baseUrl + query + RQST_MTHD.getMode());
 		
 		HttpRequest req = HttpRequest.newBuilder().uri(uri).GET().build();
 		HttpResponse<String> res = this.client.send(req, BodyHandlers.ofString());
