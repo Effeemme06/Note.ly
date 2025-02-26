@@ -29,11 +29,11 @@ public class Authenticator {
 		do {
 			ShowOutMenu();
 			result = auth();
-			if(!result.success) {
-				System.err.println("\n" + result.error);
-			}else {
-				System.out.println("\n" + result.message);
-			}
+//			if(!result.success) {
+//				System.err.println("\n" + result.error);
+//			}else {
+//				System.out.println("\n" + result.message);
+//			}
 			System.out.println("===========================================");
 		} while (!result.success);
 	}
@@ -105,7 +105,9 @@ public class Authenticator {
 		String cognome = input.nextLine();
 		
 		try {
-			WSC.registerUser(user, nome, cognome);
+			AuthenticationResult AR = WSC.registerUser(user, nome, cognome);
+			System.out.println("\nSei stato registrato nel sistema! Questo e' il tuo token, non condividerlo con nessuno:\n\tTOKEN:\t" + AR.token);
+			this.TOKEN = AR.token;
 		} catch (JAXBException | WebServiceException | IOException | InterruptedException | URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

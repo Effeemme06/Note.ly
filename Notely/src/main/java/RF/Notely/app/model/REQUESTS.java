@@ -56,7 +56,7 @@ public enum REQUESTS {
 		@Override
 		public String buildQuery(Object... args) {
 			if (args.length == 3 && args[0] instanceof String && args[1] instanceof String && args[2] instanceof String) {
-				return "?addUser&username=" + args[0] + "&name=" + args[1] + "&surname" + args[2];
+				return "?addUser&username=" + args[0] + "&name=" + args[1] + "&surname=" + args[2];
 			}
 			throw new IllegalArgumentException("Invalid arguments for ADD_USER");
 		}

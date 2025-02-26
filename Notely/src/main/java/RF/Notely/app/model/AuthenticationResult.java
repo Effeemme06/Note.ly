@@ -13,6 +13,8 @@ public class AuthenticationResult {
 	public Boolean success;
 	@XmlElement(name = "userID")
 	public Integer userID;
+	@XmlElement(name = "token")
+	public String token;
 	@XmlElement(name = "message")
 	public String message;
 	@XmlElement(name = "error")
@@ -23,11 +25,13 @@ public class AuthenticationResult {
 		userID = -1;
 		message = "";
 		error = "";
+		token = "";
 	}
 	
-	public AuthenticationResult(Boolean success, Integer userID, String message, String error) {
+	public AuthenticationResult(Boolean success, Integer userID, String token, String message, String error) {
 		this.success = success;
 		this.userID = userID;
+		this.token = token;
 		this.message = message;
 		this.error = error;
 	}

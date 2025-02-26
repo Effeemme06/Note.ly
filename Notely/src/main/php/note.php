@@ -150,12 +150,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $id = $row2['id'];
                 $xml->addChild('success', 'true');
                 $xml->addChild('userID', $id);
+                $xml->addChild('token', $token);
                 $xml->addChild('message', 'Utente inserito con successo (token: "'.$token.'")');
                 $xml->addChild('error', '');
                 http_response_code(200);
             } else {
                 $xml->addChild('success', 'false');
                 $xml->addChild('userID', "-1");
+                $xml->addChild('token', '');
                 $xml->addChild('message', 'Utente non inserito');
                 $xml->addChild('error', 'Erro during the insertion');
                 http_response_code(401);

@@ -36,8 +36,19 @@ public class WebServiceClient {
 		HttpRequest req = HttpRequest.newBuilder().uri(uri).GET().build();
 		HttpResponse<String> res = this.client.send(req, BodyHandlers.ofString());
 
-		if (res.statusCode() != 200)
+		
+		switch (res.statusCode()) {
+		case 401:
+			System.err.println("Il Token inserito e' errato/inesistente");
+			break;
+		case 200:
+		case 201:
+		case 202:
+		case 203:
+			break;
+		default:
 			throw new WebServiceException("HTTP status code: " + res.statusCode());
+		}
 
 		String body = (String) res.body();
 		// System.out.println("received: " + body);
@@ -61,7 +72,8 @@ public class WebServiceClient {
 	}
 	
 	public AuthenticationResult registerUser(String login, String nome, String cognome) throws JAXBException, WebServiceException, IOException, InterruptedException, URISyntaxException {
-		String query = REQUESTS.ADD_USER.buildQuery(login, nome, cognome).substring(1);
+		String query = REQUESTS.ADD_USER.buildQuery(login, nome, cognome).concat(RQST_MTHD.getMode()).substring(1);
+		System.out.println(query);
 		URI uri = new URI(this.baseUrl);
 		
 		HttpRequest req = HttpRequest.newBuilder().uri(uri).header("Content-Type", "application/x-www-form-urlencoded").POST(HttpRequest.BodyPublishers.ofString(query)).build();
