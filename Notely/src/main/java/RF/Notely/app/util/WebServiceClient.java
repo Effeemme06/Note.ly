@@ -45,6 +45,21 @@ public class WebServiceClient {
 		
 	}
 	
+	public boolean checkUsername(String login) throws JAXBException, WebServiceException, IOException, InterruptedException, URISyntaxException {
+		String query = REQUESTS.CHECK_USERNAME.buildQuery(login);
+		URI uri = new URI(this.baseUrl + query + RQST_MTHD.getMode());
+		
+		HttpRequest req = HttpRequest.newBuilder().uri(uri).GET().build();
+		HttpResponse<String> res = this.client.send(req, BodyHandlers.ofString());
+
+		if (res.statusCode() != 200) {
+			return false;
+		}else {
+			return true;
+		}
+		
+	}
+	
 	public AuthenticationResult registerUser(String login, String nome, String cognome) throws JAXBException, WebServiceException, IOException, InterruptedException, URISyntaxException {
 		String query = REQUESTS.AUTHENTICATE_USER.buildQuery(login, nome, cognome);
 		URI uri = new URI(this.baseUrl + query + RQST_MTHD.getMode());

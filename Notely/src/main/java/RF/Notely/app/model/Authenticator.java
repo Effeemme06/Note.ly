@@ -66,6 +66,7 @@ public class Authenticator {
 				getCredentials();
 				break;
 			case 2:
+				input.nextLine();
 				RegisterNewUser();
 				break;
 			default:
@@ -76,8 +77,32 @@ public class Authenticator {
 	
 	private void RegisterNewUser() {
 		System.out.println("============== Registration ==============");
-		System.out.println("Insert the username: ");
-		String user = input.nextLine();
+		
+		boolean status = false;
+		
+		while(status == false) {
+			System.out.println("\nInsert the username: ");
+			String user = input.nextLine();
+			try {
+				status = WSC.checkUsername(user);
+			} catch (JAXBException | WebServiceException | IOException | InterruptedException | URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(status == true) {
+				System.out.println("\nUsername available!");
+			}else {
+				System.out.println("\nUsername already in use!");
+			}
+			
+			System.out.println("\nInsert your name: ");
+			String nome = input.nextLine();
+			
+			System.out.println("\nInsert your surname: ");
+			String cognome = input.nextLine();
+			
+		}
+		
 		
 	}
 
