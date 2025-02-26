@@ -50,7 +50,7 @@ public class Authenticator {
 
 	private void getCredentials() {
 		System.out.println("============== Authenticator ==============");
-		System.out.print("\tInsert Authentication Token: ");
+		System.out.print("\n\tInsert Authentication Token:\n>> ");
 		this.TOKEN = input.nextLine();
 		
 	}
