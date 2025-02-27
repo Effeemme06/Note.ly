@@ -8,7 +8,8 @@ import RF.Notely.app.util.WebServiceClient;
 
 public class Notely {
 	
-	private static String MENU = "1.\tView Notepads\n2.\tCreate Notepad\n3.\tDelete Notepad\n4.\tSwap XML/JSON\n0.\tLogout\n>>";
+	private static String MENU = "\n\n================MENU'================\n\n"
+			+ "1.\tSelect Notepads\n2.\tCreate Notepad\n3.\tDelete Notepad\n4.\tSwap XML/JSON\n0.\tLogout\n>>";
 	private static Notely instance;
     private Authenticator AUTH;
     private WebServiceClient WSC;
@@ -63,15 +64,15 @@ public class Notely {
 					case 1:
 							//collegamento alla classe che fa la lista dei blocchi appunti --> selezione blocco --> classe Gestion_notepad
 							Store notepads = WSC.getNotepads();
-							System.out.println("-----ELENCO BLOCCHI NOTE-----");
+							System.out.println("\n==========ELENCO BLOCCHI NOTE==========\n");
 //							System.out.println(notepads);
 							for (NotePad np : notepads.getNotePads()) {
-								System.out.println("- NotePad ID-" + np.getID());
-								for (Note n : np.getNotes()) {
-									System.out.println("\tN Note ID-" + n.getId());
-									System.out.println("\t\tTitle: " + n.getTitle());
-								}
+								System.out.println("- "+ np.getTitle()+" (" + np.getID() + ")");
 							}
+							System.out.println("\nSelect notepad:\n>>");
+							NotepadHandler nphHandler = new NotepadHandler();
+							selection = user_input.nextInt();
+							nphHandler.GenerateMenu(selection, notepads);
 							
 						break;
 					default:

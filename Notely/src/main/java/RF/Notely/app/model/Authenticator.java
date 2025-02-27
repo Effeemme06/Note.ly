@@ -29,7 +29,7 @@ public class Authenticator {
 		do {
 			ShowOutMenu();
 			result = auth();
-			System.out.println("===========================================");
+			System.out.println("\n===========================================\n");
 		} while (!result.success);
 	}
 
@@ -44,7 +44,7 @@ public class Authenticator {
 	}
 
 	private void getCredentials() {
-		System.out.println("============== Authenticator ==============");
+		System.out.println("\n============== Authenticator ==============\n");
 		System.out.print("\n\tInsert Authentication Token:\n>> ");
 		this.TOKEN = input.nextLine();
 		
@@ -52,7 +52,7 @@ public class Authenticator {
 	
 	private void ShowOutMenu() {
 		
-			System.out.println("============== First Access ==============");
+			System.out.println("\n============== First Access ==============\n");
 			System.out.print("\n\tChoose an option:\n1. Insert token\n2. Register\n\n>>");
 			this.selection = input.nextInt();
 			switch (selection) {
@@ -71,7 +71,7 @@ public class Authenticator {
 	}
 	
 	private void RegisterNewUser() {
-		System.out.println("============== Registration ==============");
+		System.out.println("\n============== Registration ==============\n");
 		
 		boolean status = false;
 		String user = "";

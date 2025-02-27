@@ -4,19 +4,35 @@ import java.util.Scanner;
 
 public class NotepadHandler {
 	
-	private static String MENU_NOTEPAD = "1.\tView Note\n2.\tCreate Note\n3.\tDelete Note\n4.\tRename Notepad\n0.\tback\n>>";
+	private static String MENU_NOTEPAD = "\n1.\tSelect Note\n2.\tCreate Note\n3.\tDelete Note\n4.\tRename Notepad\n0.\tback\n>>";
     private Scanner user_input;
 	
-	public void GenerateMenu(int id_notepad) {
+	public void GenerateMenu(int id_notepad, Store ntp) {
+		
+		user_input = new Scanner(System.in);
+		
+		boolean exit = true;
+		NotePad selected = null;
+
+		for (NotePad np : ntp.getNotePads()) {
+			if(np.getID() == id_notepad) {
+				exit = false;
+				selected = np;
+				System.out.println("\n============ " + selected.getTitle() + " ============\n");
+				break;
+			}
+		}
 		
 		
-		boolean exit = false;
+		
 		int selection = 0;
 		
 		while(exit == false) {
 			
 			try {
-				
+				for (Note n : selected.getNotes()) {
+					System.out.println("Note:\n\t-" + n.getTitle() + " (" + n.getId() + ")");
+				}
 				System.out.println(MENU_NOTEPAD);
 	    		selection = user_input.nextInt();
 	    		switch (selection) {
@@ -45,6 +61,8 @@ public class NotepadHandler {
 			
 		}
 		
+		System.out.println("\nExiting...\n");
+
 	}
 	
 }

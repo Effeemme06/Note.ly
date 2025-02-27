@@ -12,11 +12,15 @@ import jakarta.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "notes"
+    "title", "description", "notes"
 })
 @XmlRootElement(name = "NotePad")
 public class NotePad {
 
+	@XmlElement(name = "title")
+	protected String title;
+	@XmlElement(name = "description")
+	protected String description;
     @XmlElement(name = "Note")
     protected List<Note> notes;
     @XmlAttribute(required = true)
@@ -34,12 +38,18 @@ public class NotePad {
     	return this.id;
     }
 
+	public String getTitle() {
+		return title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
 
 	@Override
 	public String toString() {
 		return "NotePad [notes=" + notes + "]";
 	}
-    
     
 
 }

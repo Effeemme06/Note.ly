@@ -154,7 +154,7 @@ public class WebServiceClient {
 				.addResponseMethod(RSP_MTHD)
 				.addToken(AUTH)
 				.build();
-		System.out.println(query);
+		//System.out.println(query);
 		URI uri = new URI(this.baseUrl + query);
 		
 		HttpRequest req = HttpRequest.newBuilder().uri(uri).GET().build();
@@ -186,7 +186,7 @@ public class WebServiceClient {
 	    		.addResponseMethod(RSP_MTHD)
 	    		.addToken(AUTH)
 	    		.build();
-	    System.out.println(json);
+	  //  System.out.println(json);
 	    URI uri = new URI(this.baseUrl);
 
 	    HttpRequest req = HttpRequest.newBuilder().uri(uri).header("Content-Type", "application/json").PUT(HttpRequest.BodyPublishers.ofString(json.toString())).build();
