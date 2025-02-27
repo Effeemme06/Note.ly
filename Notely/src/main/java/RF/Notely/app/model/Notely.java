@@ -7,8 +7,8 @@ import RF.Notely.app.util.WebServiceClient;
 
 public class Notely {
 	
-	private static String MENU = "1.\tView Notes\n2.\tCreate Note\n3.\tDelete Note\n4.\tView Notepads\n5.\tCreate Notepad\n6.\tDelete Notepad\n7.\tManage Permissions\n8.\tSwap XML/JSON\n0.\tLogout\n>>";
-    private static Notely instance;
+	private static String MENU = "1.\tView Notepads\n2.\tCreate Notepad\n3.\tDelete Notepad\n4.\tSwap XML/JSON\n0.\tLogout\n>>";
+	private static Notely instance;
     private Authenticator AUTH;
     private WebServiceClient WSC;
     private Scanner user_input;
@@ -43,29 +43,17 @@ public class Notely {
 	    		System.out.print(MENU);    
 	    		selection = user_input.nextInt();
 	    		switch (selection) {
-					case 8:
+					case 4:
 						WSC.swapXML_JSON();
 						break;
-					case 7:
-						
-						break;
-					case 6:
-						
-						break;
-					case 5:
-						
-						break;
-					case 4:
-						
-						break;
 					case 3:
-						
+							//lista blocco appunti per eliminare
 						break;
 					case 2:
-						
+							//classe che crea il blocco appunti
 						break;
 					case 1:
-							NotePad NP = WSC.getNotes();
+							//collegamento alla classe che fa la lista dei blocchi appunti --> selezione blocco --> classe Gestion_notepad
 						break;
 					default:
 						break;
