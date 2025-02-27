@@ -143,7 +143,20 @@ public enum QueryHandler {
             }
             throw new IllegalArgumentException("Invalid arguments for CREATE_NOTEPAD");
         }
-    };
+    },
+	SHARE_NOTE {
+    	@Override
+        public Query newQuery(Object... args) {
+            if (args.length == 3 && args[0] instanceof Integer && args[1] instanceof String && args[2] instanceof Integer) {
+                Query query = new Query(RequestMethod.PUT).setRoute("shareNote");
+                query.addParameter("noteID", args[0]);
+                query.addParameter("usernameTarget", args[1]);
+                query.addParameter("perx", args[2]);
+                return query;
+            }
+            throw new IllegalArgumentException("Invalid arguments for SHARE_NOTE");
+        }
+	};
 	
 
     public abstract Query newQuery(Object... args);

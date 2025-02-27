@@ -236,11 +236,61 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sss", $data['title'], $data['description'], $data['token']);
         if($stmt->execute()){
-            http_response_code(200);
+            http_response_code(201);
         }else{
             http_response_code(400);
         }
         
+    } else if(isset($data['route'], $data['title'] , $data['body'], $data['token']) && $data['route'] == "newNote"){
+        //Aggiugo la nota nel database
+        $sql = "INSERT INTO nota (titolo, corpo, id_blocco) VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssi", $data['title'], $data['body'], $data['id']);
+        if($stmt->execute()){
+            http_response_code(201);
+        }else{
+            http_response_code(400);
+        }
+        
+    } else if(isset($data["route"]) && $data["route"] == "shareNote"){
+        if(isset($data['noteID'], $data['usernameTarget'], $data['perx'])){
+            //Aggiungo associazione tra utente e nota in appartiene specificando il permesso
+            $sql = "INSERT INTO appartiene (id_nota, id_utente, permesso) VALUES (?, (SELECT id FROM utente WHERE login = ?), ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("isi", $data['noteID'], $data['usernameTarget'], $data['perx']);
+            if($stmt->execute()){
+                http_response_code(201);
+            }else{
+                http_response_code(400);
+            }
+        }
+    } 
+
+} else if ($_SERVER['REQUEST_METHOD'] == "DELETE"){
+    
+    // Recupero i dati dal php://input
+    $data = json_decode(file_get_contents('php://input'), true);
+
+    if(isset($data['route'], $data['notepadID']) && $data['route'] == "deleteNotepad"){
+        //Elinino il blocco note nel database
+        $sql = "DELETE FROM blocco WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $data['notepadID']);
+        if($stmt->execute()){
+            http_response_code(200);
+        }else{
+            http_response_code(400);
+        }
+    } else if(isset($data['route'], $data['noteID']) && $data['route'] == "deleteNote"){
+        //Elinino la nota nel database
+        $sql = "DELETE FROM nota WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $data['noteID']);
+        if($stmt->execute()){
+            http_response_code(200);
+        }else{
+            http_response_code(400);
+        }
     }
 
 }

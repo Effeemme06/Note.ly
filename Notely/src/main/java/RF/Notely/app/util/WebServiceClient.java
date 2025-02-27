@@ -199,7 +199,89 @@ public class WebServiceClient {
 	        return false;
 	    }
 	}
-
 	
+	public boolean createNote(String title, String body) throws Exception {
+		String json = QueryHandler.INSERT_NEW_NOTE
+				.newQuery(title, body)
+				.setRequestMethod(RequestMethod.PUT)
+				.addResponseMethod(RSP_MTHD)
+				.addToken(AUTH)
+				.build();
+		//  System.out.println(json);
+		URI uri = new URI(this.baseUrl);
+		
+		HttpRequest req = HttpRequest.newBuilder().uri(uri).header("Content-Type", "application/json").PUT(HttpRequest.BodyPublishers.ofString(json.toString())).build();
+		HttpResponse<String> res = this.client.send(req, BodyHandlers.ofString());
+		
+		if (res.statusCode() == 201) { // 201 = Created
+			return true;
+		} else {
+			System.err.println("Errore HTTP: " + res.statusCode() + " - " + res.body());
+			return false;
+		}
+	}
+	
+	public boolean deleteNotepad(Integer id) throws Exception {
+		String json = QueryHandler.DELETE_NOTEPAD
+				.newQuery(id)
+				.setRequestMethod(RequestMethod.DELETE)
+				.addResponseMethod(RSP_MTHD)
+				.addToken(AUTH)
+				.build();
+		//  System.out.println(json);
+		URI uri = new URI(this.baseUrl);
+		
+		HttpRequest req = HttpRequest.newBuilder().uri(uri).header("Content-Type", "application/json").method("DELETE", HttpRequest.BodyPublishers.ofString(json)).build();
+		HttpResponse<String> res = this.client.send(req, BodyHandlers.ofString());
+		
+		if (res.statusCode() == 200) { // 200 = Deleted
+			return true;
+		} else {
+			System.err.println("Errore HTTP: " + res.statusCode() + " - " + res.body());
+			return false;
+		}
+	}
+	
+	public boolean deleteNote(Integer id) throws Exception {
+		String json = QueryHandler.DELETE_NOTE
+				.newQuery(id)
+				.setRequestMethod(RequestMethod.DELETE)
+				.addResponseMethod(RSP_MTHD)
+				.addToken(AUTH)
+				.build();
+		//  System.out.println(json);
+		URI uri = new URI(this.baseUrl);
+		
+		HttpRequest req = HttpRequest.newBuilder().uri(uri).header("Content-Type", "application/json").method("DELETE", HttpRequest.BodyPublishers.ofString(json)).build();
+		HttpResponse<String> res = this.client.send(req, BodyHandlers.ofString());
+		
+		if (res.statusCode() == 200) { // 200 = Deleted
+			return true;
+		} else {
+			System.err.println("Errore HTTP: " + res.statusCode() + " - " + res.body());
+			return false;
+		}
+	}
+
+	public boolean shareNote(Integer noteID, String usernameToShareWith, Integer permissionLevel) throws JAXBException, WebServiceException, IOException, InterruptedException, URISyntaxException {
+		String json = QueryHandler.SHARE_NOTE
+				.newQuery(noteID, usernameToShareWith, permissionLevel)
+				.setRequestMethod(RequestMethod.PUT)
+				.addResponseMethod(RSP_MTHD)
+				.build();
+//		System.out.println(json);
+		URI uri = new URI(this.baseUrl);
+		
+		HttpRequest req = HttpRequest.newBuilder().uri(uri).header("Content-Type", "application/json").PUT(HttpRequest.BodyPublishers.ofString(json.toString())).build();
+		HttpResponse<String> res = this.client.send(req, BodyHandlers.ofString());
+
+		if (res.statusCode() == 201) { // 201 = Created
+			return true;
+		} else {
+			System.err.println("Errore HTTP: " + res.statusCode() + " - " + res.body());
+			return false;
+		}
+		
+	}
 
 }
