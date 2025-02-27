@@ -135,9 +135,10 @@ public enum QueryHandler {
     CREATE_NOTEPAD {
         @Override
         public Query newQuery(Object... args) {
-            if (args.length == 1 && args[0] instanceof String) {
+            if (args.length == 2 && args[0] instanceof String && args[1] instanceof String) {
                 Query query = new Query(RequestMethod.POST).setRoute("createNotepad");
                 query.addParameter("title", args[0]);
+                query.addParameter("description", args[1]);
                 return query;
             }
             throw new IllegalArgumentException("Invalid arguments for CREATE_NOTEPAD");

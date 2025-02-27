@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringJoiner;
 
+import org.json.JSONObject;
+
 public class Query {
 	
 	private String route;
@@ -52,16 +54,26 @@ public class Query {
 	}
 	
 	public String build() {
-	    if (parameters.isEmpty()) {
+		if (parameters.isEmpty()) {
 	        return "";
 	    }
 
-	    StringJoiner joiner = new StringJoiner("&");
-	    for (Map.Entry<String, Object> entry : parameters.entrySet()) {
-	        joiner.add(entry.getKey() + "=" + entry.getValue());
-	    }
-
-	    return (requestMethod == RequestMethod.GET) ? "?" + route + "&" + joiner : route + "&" + joiner.toString();
+	    if (requestMethod == RequestMethod.GET || requestMethod == RequestMethod.POST) {
+	        StringJoiner joiner = new StringJoiner("&");
+	        for (Map.Entry<String, Object> entry : parameters.entrySet()) {
+	            joiner.add(entry.getKey() + "=" + entry.getValue());
+	        }
+	        return (requestMethod == RequestMethod.GET) ? "?" + route + "&" + joiner : route + "&" + joiner.toString();
+	    } else if (requestMethod == RequestMethod.PUT || requestMethod == RequestMethod.DELETE) {
+	        JSONObject json = new JSONObject();
+	        json.put("route", route);
+	        for (Map.Entry<String, Object> entry : parameters.entrySet()) {
+	            json.put(entry.getKey(), entry.getValue());
+	        }
+	        return json.toString();
+	    } 
+	    
+	    return "";
 	}
 
 

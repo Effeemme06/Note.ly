@@ -8,6 +8,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 
+import org.json.JSONObject;
 import org.json.JSONStringer;
 
 import RF.Notely.app.errors.WebServiceException;
@@ -178,21 +179,18 @@ public class WebServiceClient {
 		return XmlUtils.unmarshal(Store.class, body);
 	}
 
-	public boolean createNotepad(String title) throws Exception {
-	    String query = QueryHandler.CREATE_NOTEPAD
-	    		.newQuery(title)
-	    		.setRequestMethod(RequestMethod.POST)
+	public boolean createNotepad(String title, String description) throws Exception {
+	    String json = QueryHandler.CREATE_NOTEPAD
+	    		.newQuery(title, description)
+	    		.setRequestMethod(RequestMethod.PUT)
 	    		.addResponseMethod(RSP_MTHD)
 	    		.addToken(AUTH)
 	    		.build();
+	    System.out.println(json);
 	    URI uri = new URI(this.baseUrl);
 
-	    HttpRequest req = HttpRequest.newBuilder()
-	        .uri(uri)
-	        .POST(HttpRequest.BodyPublishers.noBody()) // Richiesta POST senza corpo
-	        .build();
-
-	    HttpResponse<String> res = this.client.send(req, BodyHandlers.ofString());
+	    HttpRequest req = HttpRequest.newBuilder().uri(uri).header("Content-Type", "application/json").PUT(HttpRequest.BodyPublishers.ofString(json.toString())).build();
+		HttpResponse<String> res = this.client.send(req, BodyHandlers.ofString());
 
 	    if (res.statusCode() == 201) { // 201 = Created
 	        return true;

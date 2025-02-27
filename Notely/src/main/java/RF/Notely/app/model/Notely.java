@@ -43,6 +43,7 @@ public class Notely {
     		try {
 	    		System.out.print(MENU);    
 	    		selection = user_input.nextInt();
+	    		user_input.nextLine();
 	    		switch (selection) {
 					case 4:
 						WSC.swapXML_JSON();
@@ -54,8 +55,10 @@ public class Notely {
 							//classe che crea il blocco appunti
 							System.out.print("Inserisci il titolo del nuovo Blocco note > ");
 							String title = user_input.nextLine();
+							System.out.print("Inserisci la descrizione del nuovo Blocco note > ");
+							String description = user_input.nextLine();
 						
-							boolean success = WSC.createNotepad(title);
+							boolean success = WSC.createNotepad(title, description);
 						break;
 					case 1:
 							//collegamento alla classe che fa la lista dei blocchi appunti --> selezione blocco --> classe Gestion_notepad
