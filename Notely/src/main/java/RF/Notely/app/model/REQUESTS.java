@@ -90,7 +90,17 @@ public enum REQUESTS {
 			}
 			throw new IllegalArgumentException("Invalid arguments for GET_NOTES");
 		}
+	}, 
+	GET_NOTEPADS {
+		@Override
+		public String buildQuery(Object... args) {
+			if (args.length == 1 && args[0] instanceof String) {
+				return "?fetchNotepads&token=" + args[0];
+			}
+			throw new IllegalArgumentException("Invalid arguments for GET_NOTEPADS");
+		}
 	};
+	
 
     public abstract String buildQuery(Object... args);
 }

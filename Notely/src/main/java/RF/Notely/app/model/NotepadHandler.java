@@ -2,7 +2,7 @@ package RF.Notely.app.model;
 
 import java.util.Scanner;
 
-public class Gestion_Notepad {
+public class NotepadHandler {
 	
 	private static String MENU_NOTEPAD = "1.\tView Note\n2.\tCreate Note\n3.\tDelete Note\n4.\tRename Notepad\n0.\tback\n>>";
     private Scanner user_input;

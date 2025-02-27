@@ -17,6 +17,7 @@ import RF.Notely.app.model.NotePad;
 import RF.Notely.app.model.REQUESTS;
 import RF.Notely.app.model.RequestMode;
 import RF.Notely.app.model.RequestMode.Mode;
+import RF.Notely.app.model.Store;
 import RF.Notely.app.util.XmlUtils;
 import jakarta.xml.bind.JAXBException;
 
@@ -77,7 +78,7 @@ public class WebServiceClient {
 	
 	public AuthenticationResult registerUser(String login, String nome, String cognome) throws JAXBException, WebServiceException, IOException, InterruptedException, URISyntaxException {
 		String query = REQUESTS.ADD_USER.buildQuery(login, nome, cognome).concat(RQST_MTHD.getMode().toString()).substring(1);
-		System.out.println(query);
+//		System.out.println(query);
 		URI uri = new URI(this.baseUrl);
 		
 		HttpRequest req = HttpRequest.newBuilder().uri(uri).header("Content-Type", "application/x-www-form-urlencoded").POST(HttpRequest.BodyPublishers.ofString(query)).build();
@@ -128,6 +129,31 @@ public class WebServiceClient {
 
 	private String castResponsePreferenceToQuery(String query) {
 		return this.baseUrl + query + "&mod=" + ((this.RQST_MTHD.getMode().equals(RequestMode.Mode.XML_REQUEST_METHOD) ? "xml" : "json"));
+	}
+
+	public Store getNotepads() throws Exception {
+		String query = REQUESTS.GET_NOTEPADS.buildQuery(AUTH.getToken());
+		URI uri = new URI(castResponsePreferenceToQuery(query));
+		
+		HttpRequest req = HttpRequest.newBuilder().uri(uri).GET().build();
+		HttpResponse<String> res = this.client.send(req, BodyHandlers.ofString());
+
+		switch (res.statusCode()) {
+		case 404:
+			System.err.println("Nessun Blocco note trovato");
+			break;
+		case 200:
+		case 201:
+		case 202:
+		case 203:
+			break;
+		default:
+			throw new WebServiceException("HTTP status code: " + res.statusCode());
+		}
+		
+		String body = (String) res.body();
+		// System.out.println("received: " + body);
+		return XmlUtils.unmarshal(Store.class, body);
 	}
 	
 	

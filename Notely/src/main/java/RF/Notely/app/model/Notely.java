@@ -1,6 +1,7 @@
 package RF.Notely.app.model;
 
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Scanner;
 
 import RF.Notely.app.util.WebServiceClient;
@@ -54,6 +55,13 @@ public class Notely {
 						break;
 					case 1:
 							//collegamento alla classe che fa la lista dei blocchi appunti --> selezione blocco --> classe Gestion_notepad
+							Store notepads = WSC.getNotepads();
+							System.out.println("-----ELENCO BLOCCHI NOTE-----");
+							System.out.println(notepads);
+							for (NotePad np : notepads.getNotePads()) {
+								System.out.println("- NotePad ID-" + np.getID());
+							}
+							
 						break;
 					default:
 						break;
