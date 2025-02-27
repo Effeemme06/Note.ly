@@ -126,8 +126,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
                 while ($notepad_row = $result->fetch_assoc()) {
                     
                     // Per ogni Notepad, crea un nodo <Notepad> dentro <Store>
-                    $notepad = $xml->addChild('Notepad');
-    
+                    $notepad = $xml->addChild('NotePad');
+                    $notepad->addAttribute('id', $notepad_row['id']);
+
                     // Query per ottenere le Note associate al Notepad
                     $sql_notes = "SELECT id, titolo, corpo FROM nota WHERE id_blocco = ?";
                     $stmt_notes = $conn->prepare($sql_notes);

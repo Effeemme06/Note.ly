@@ -1,14 +1,14 @@
 package RF.Notely.app.model;
 
-public class RequestMode {
+public class ResponseMethod {
 	
 	public Mode mode;
 	
-	public RequestMode() {
+	public ResponseMethod() {
 		mode = Mode.XML_REQUEST_METHOD;
 	}
 	
-	public RequestMode(Mode mode) {
+	public ResponseMethod(Mode mode) {
 		this.mode = mode;
 	}
 	

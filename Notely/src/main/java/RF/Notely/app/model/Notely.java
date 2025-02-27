@@ -52,14 +52,22 @@ public class Notely {
 						break;
 					case 2:
 							//classe che crea il blocco appunti
+							System.out.print("Inserisci il titolo del nuovo Blocco note > ");
+							String title = user_input.nextLine();
+						
+							boolean success = WSC.createNotepad(title);
 						break;
 					case 1:
 							//collegamento alla classe che fa la lista dei blocchi appunti --> selezione blocco --> classe Gestion_notepad
 							Store notepads = WSC.getNotepads();
 							System.out.println("-----ELENCO BLOCCHI NOTE-----");
-							System.out.println(notepads);
+//							System.out.println(notepads);
 							for (NotePad np : notepads.getNotePads()) {
 								System.out.println("- NotePad ID-" + np.getID());
+								for (Note n : np.getNotes()) {
+									System.out.println("\tN Note ID-" + n.getId());
+									System.out.println("\t\tTitle: " + n.getTitle());
+								}
 							}
 							
 						break;
