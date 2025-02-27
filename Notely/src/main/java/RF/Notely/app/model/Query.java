@@ -38,7 +38,7 @@ public class Query {
 	}
 	
 	public Query addToken(Authenticator AUTH) {
-		if(!this.parameters.containsKey("mod")) {
+		if(!this.parameters.containsKey("token")) {
 			this.parameters.put("token", AUTH.getToken());
 		}
 		return this;
