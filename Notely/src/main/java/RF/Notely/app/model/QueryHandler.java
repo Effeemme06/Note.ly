@@ -127,7 +127,7 @@ public enum QueryHandler {
                 query.addParameter("token", args[0]);
                 return query;
             }else {
-            	return new Query(RequestMethod.GET).setRoute("fetchNotes");            	
+            	return new Query(RequestMethod.GET).setRoute("fetchNotepads");            	
             }
         }
     },

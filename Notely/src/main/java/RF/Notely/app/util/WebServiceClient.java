@@ -153,6 +153,7 @@ public class WebServiceClient {
 				.addResponseMethod(RSP_MTHD)
 				.addToken(AUTH)
 				.build();
+		System.out.println(query);
 		URI uri = new URI(this.baseUrl + query);
 		
 		HttpRequest req = HttpRequest.newBuilder().uri(uri).GET().build();
