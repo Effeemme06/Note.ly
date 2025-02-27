@@ -28,7 +28,7 @@ public class Notely {
     
     public void start() {
     	
-    	Integer selection;
+    	Integer selection = null;
     	
     	AUTH.setWebServiceClient(WSC);
     	
@@ -38,9 +38,10 @@ public class Notely {
     	
 //    	APP Loop ---------------------------
     	do {
-    		selection = user_input.nextInt();
+    		
     		try {
 	    		System.out.print(MENU);    
+	    		selection = user_input.nextInt();
 	    		switch (selection) {
 					case 8:
 						WSC.swapXML_JSON();
