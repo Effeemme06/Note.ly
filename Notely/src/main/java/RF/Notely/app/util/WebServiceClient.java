@@ -11,6 +11,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 import RF.Notely.app.errors.WebServiceException;
 import RF.Notely.app.model.AuthenticationResult;
 import RF.Notely.app.model.Authenticator;
+import RF.Notely.app.model.NotePad;
 import RF.Notely.app.model.REQUESTS;
 import RF.Notely.app.model.RequestMode;
 import RF.Notely.app.model.RequestMode.Mode;
@@ -31,7 +32,8 @@ public class WebServiceClient {
 
 	public AuthenticationResult authenticateClient(String token) throws JAXBException, WebServiceException, IOException, InterruptedException, URISyntaxException {
 		String query = REQUESTS.AUTHENTICATE_USER.buildQuery(token);
-		URI uri = new URI(this.baseUrl + query + RQST_MTHD.getMode());
+		URI uri = new URI(castResponsePreferenceToQuery(query));
+		System.out.println(uri.toString());
 		
 		HttpRequest req = HttpRequest.newBuilder().uri(uri).GET().build();
 		HttpResponse<String> res = this.client.send(req, BodyHandlers.ofString());
@@ -58,7 +60,7 @@ public class WebServiceClient {
 	
 	public boolean checkUsername(String login) throws JAXBException, WebServiceException, IOException, InterruptedException, URISyntaxException {
 		String query = REQUESTS.CHECK_USERNAME.buildQuery(login);
-		URI uri = new URI(this.baseUrl + query + RQST_MTHD.getMode());
+		URI uri = new URI(castResponsePreferenceToQuery(query));
 		
 		HttpRequest req = HttpRequest.newBuilder().uri(uri).GET().build();
 		HttpResponse<String> res = this.client.send(req, BodyHandlers.ofString());
@@ -72,7 +74,7 @@ public class WebServiceClient {
 	}
 	
 	public AuthenticationResult registerUser(String login, String nome, String cognome) throws JAXBException, WebServiceException, IOException, InterruptedException, URISyntaxException {
-		String query = REQUESTS.ADD_USER.buildQuery(login, nome, cognome).concat(RQST_MTHD.getMode()).substring(1);
+		String query = REQUESTS.ADD_USER.buildQuery(login, nome, cognome).concat(RQST_MTHD.getMode().toString()).substring(1);
 		System.out.println(query);
 		URI uri = new URI(this.baseUrl);
 		
@@ -95,6 +97,35 @@ public class WebServiceClient {
 
 	public void swapXML_JSON() {
 		this.RQST_MTHD.swap();
+	}
+
+	public NotePad getNotes() throws Exception {
+		String query = REQUESTS.GET_NOTES.buildQuery(AUTH.getToken());
+		URI uri = new URI(castResponsePreferenceToQuery(query));
+		
+		HttpRequest req = HttpRequest.newBuilder().uri(uri).GET().build();
+		HttpResponse<String> res = this.client.send(req, BodyHandlers.ofString());
+
+		switch (res.statusCode()) {
+		case 404:
+			System.err.println("Nessuna nota trovata");
+			break;
+		case 200:
+		case 201:
+		case 202:
+		case 203:
+			break;
+		default:
+			throw new WebServiceException("HTTP status code: " + res.statusCode());
+		}
+		
+		String body = (String) res.body();
+		// System.out.println("received: " + body);
+		return XmlUtils.unmarshal(NotePad.class, body);
+	}
+
+	private String castResponsePreferenceToQuery(String query) {
+		return this.baseUrl + query + "&mod=" + ((this.RQST_MTHD.getMode().equals(RequestMode.Mode.XML_REQUEST_METHOD) ? "xml" : "json"));
 	}
 	
 	

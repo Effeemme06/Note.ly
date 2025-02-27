@@ -80,6 +80,16 @@ public enum REQUESTS {
 			}
 			throw new IllegalArgumentException("Invalid arguments for DELETE_USER");
 		}
+	},
+	
+	GET_NOTES {
+		@Override
+		public String buildQuery(Object... args) {
+			if (args.length == 1 && args[0] instanceof String) {
+				return "?fetchNotes&token=" + args[0];
+			}
+			throw new IllegalArgumentException("Invalid arguments for GET_NOTES");
+		}
 	};
 
     public abstract String buildQuery(Object... args);
