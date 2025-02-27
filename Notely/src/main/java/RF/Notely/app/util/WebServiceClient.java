@@ -8,6 +8,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 
+import org.json.JSONStringer;
+
 import RF.Notely.app.errors.WebServiceException;
 import RF.Notely.app.model.AuthenticationResult;
 import RF.Notely.app.model.Authenticator;
