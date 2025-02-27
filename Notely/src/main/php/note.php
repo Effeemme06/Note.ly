@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         if (isset($_GET['token'], $_GET['mod'])) {
             $xml = new SimpleXMLElement('<Store/>'); // Radice <Store>
     
-            $sql = "SELECT id, titolo FROM blocco b WHERE id_utente = (SELECT id FROM utente WHERE token = ?)";
+            $sql = "SELECT id, titolo, descrizione FROM blocco b WHERE id_utente = (SELECT id FROM utente WHERE token = ?)";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("s", $_GET["token"]);
             $stmt->execute();
@@ -128,6 +128,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
                     // Per ogni Notepad, crea un nodo <Notepad> dentro <Store>
                     $notepad = $xml->addChild('NotePad');
                     $notepad->addAttribute('id', $notepad_row['id']);
+                    $notepad->addChild('title', $notepad_row['titolo']);
+                    $notepad->addChild('description', $notepad_row['descrizione']);
 
                     // Query per ottenere le Note associate al Notepad
                     $sql_notes = "SELECT id, titolo, corpo FROM nota WHERE id_blocco = ?";
