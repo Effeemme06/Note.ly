@@ -18,7 +18,6 @@ public class NotepadHandler {
 			if(np.getID() == id_notepad) {
 				exit = false;
 				selected = np;
-				System.out.println("\n============ " + selected.getTitle() + " ============\n");
 				break;
 			}
 		}
@@ -29,6 +28,7 @@ public class NotepadHandler {
 		
 		while(exit == false) {
 			
+			System.out.println("\n============ " + selected.getTitle() + " ============\n");
 			try {
 				for (Note n : selected.getNotes()) {
 					System.out.println("Note:\n\t-" + n.getTitle() + " (" + n.getId() + ")");
@@ -49,7 +49,13 @@ public class NotepadHandler {
 							//crea nota
 						break;
 					case 1:
-							//lista note selezionabili--> classe per visualizzare note / rinominare
+						for (Note n : selected.getNotes()) {
+							System.out.println("Note:\n\t-" + n.getTitle() + " (" + n.getId() + ")");
+						}
+						System.out.println("\nSelect note:\n>>");
+						NoteHandler nphHandler = new NoteHandler();
+						selection = user_input.nextInt();
+						nphHandler.GenerateMenu(selection, selected);
 						break;
 					default:
 						break;
