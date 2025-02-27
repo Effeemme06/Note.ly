@@ -12,12 +12,8 @@ public class RequestMode {
 		this.mode = mode;
 	}
 	
-	public String getMode() {
-		if(mode.equals(Mode.XML_REQUEST_METHOD)) {
-			return "&mod=xml";
-		}else {
-			return "&mod=json";
-		}
+	public Mode getMode() {
+		return this.mode;
 	}
 	
 	public void swap() {
@@ -36,6 +32,11 @@ public class RequestMode {
 		
 		private Mode(Integer type) {
 			this.type = type;
+		}
+		
+		@Override
+		public String toString() {
+			return "&mod=" + ((this == XML_REQUEST_METHOD) ? "xml" : "json");
 		}
 		
 	}

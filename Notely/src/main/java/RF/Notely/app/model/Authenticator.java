@@ -29,11 +29,6 @@ public class Authenticator {
 		do {
 			ShowOutMenu();
 			result = auth();
-//			if(!result.success) {
-//				System.err.println("\n" + result.error);
-//			}else {
-//				System.out.println("\n" + result.message);
-//			}
 			System.out.println("===========================================");
 		} while (!result.success);
 	}
@@ -120,6 +115,11 @@ public class Authenticator {
 	public void setWebServiceClient(WebServiceClient WSC) {
 		this.WSC = WSC;
 		WSC.setAuthenticator(this);
+	}
+
+	public String getToken() {
+		// TODO Auto-generated method stub
+		return this.TOKEN;
 	}
 
 	

@@ -33,7 +33,6 @@ public class WebServiceClient {
 	public AuthenticationResult authenticateClient(String token) throws JAXBException, WebServiceException, IOException, InterruptedException, URISyntaxException {
 		String query = REQUESTS.AUTHENTICATE_USER.buildQuery(token);
 		URI uri = new URI(castResponsePreferenceToQuery(query));
-		System.out.println(uri.toString());
 		
 		HttpRequest req = HttpRequest.newBuilder().uri(uri).GET().build();
 		HttpResponse<String> res = this.client.send(req, BodyHandlers.ofString());
@@ -47,6 +46,7 @@ public class WebServiceClient {
 		case 201:
 		case 202:
 		case 203:
+			System.out.println("Sei stato autorizzato.");
 			break;
 		default:
 			throw new WebServiceException("HTTP status code: " + res.statusCode());
