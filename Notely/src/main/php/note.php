@@ -223,5 +223,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     } else {
         http_response_code(400);
     }
+} else if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+    // Recupero i dati dal php://input
+    $data = json_decode(file_get_contents('php://input'), true);
+
+    if(isset($data['createNotepad'], $data['title'] , $data['description'], $data['token'])){
+        //Aggiugo il blocco note nel database
+        $sql = "INSERT INTO blocco (titolo, descrizione, id_utente) VALUES (?, ?, (SELECT id FROM utente WHERE token = ?))";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sss", $data['title'], $data['description'], $data['token']);
+        if($stmt->execute()){
+            http_response_code(200);
+        }
+        
+    }
+
 }
 $conn->close();
