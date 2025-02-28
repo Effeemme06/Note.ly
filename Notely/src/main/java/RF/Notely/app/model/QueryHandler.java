@@ -168,6 +168,20 @@ public enum QueryHandler {
             }
             throw new IllegalArgumentException("Invalid arguments for EDIT_NOTE_TITLE");
         }
+		
+	}, 
+	EDIT_NOTEPAD_TITLE {
+		@Override
+		public Query newQuery(Object... args) {
+			if (args.length == 2 && args[0] instanceof String && args[1] instanceof Integer) {
+				Query query = new Query(RequestMethod.PUT).setRoute("editNotepadTitle");
+				query.addParameter("newTitle", args[0]);
+				query.addParameter("notepadID", args[1]);
+				return query;
+			}
+			throw new IllegalArgumentException("Invalid arguments for EDIT_NOTE_TITLE");
+		}
+		
 	}, 
 	EDIT_NOTE_BODY {
 		@Override

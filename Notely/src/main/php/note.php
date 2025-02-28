@@ -288,6 +288,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 http_response_code(400);
             }
         }
+    } else if(isset($data["route"]) && $data["route"] == "editNotepadBody"){
+        if(isset($data["newTitle"], $data["notepadID"])){
+            //Modifico il titolo del blocco specificata
+            $sql = "UPDATE blocco SET titolo = ? WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("si", $data["newTitle"], $data["notepadID"]);
+            if($stmt->execute()){
+                http_response_code(200);
+            }else{
+                http_response_code(400);
+            }
+        }
     } 
 
 } else if ($_SERVER['REQUEST_METHOD'] == "DELETE"){
