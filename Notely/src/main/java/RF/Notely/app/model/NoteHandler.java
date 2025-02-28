@@ -1,8 +1,12 @@
 package RF.Notely.app.model;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Scanner;
 
+import RF.Notely.app.errors.WebServiceException;
 import RF.Notely.app.util.WebServiceClient;
+import jakarta.xml.bind.JAXBException;
 
 public class NoteHandler {
 	
@@ -48,7 +52,8 @@ public class NoteHandler {
 					case 4:
 						//TODO
 						//rinomina titolo nota
-						String title = null;
+						System.out.print("Insert the new title of the note> ");
+						String title = user_input.nextLine();
 						WSC.editNoteTitle(title, selected.id);
 						exit = true;
 						break;
@@ -56,7 +61,8 @@ public class NoteHandler {
 						
 						//TODO
 						//Modifica il body della nota
-						String body = null;
+						System.out.print("Insert the new body of the note> ");
+						String body = user_input.nextLine();
 						WSC.editNoteBody(body, selected.id);
 						exit = true;
 						break;
@@ -68,8 +74,26 @@ public class NoteHandler {
 					case 1:
 						//condividi
 						
-						System.out.print("Insert the person username> ");
-						String username = user_input.nextLine();
+						boolean status = true;
+						String username = "";
+						
+						while(status == true) {
+							System.out.print("Insert the person username> ");
+							username = user_input.nextLine();
+							try {
+								status = WSC.checkUsername(username);
+							} catch (JAXBException | WebServiceException | IOException | InterruptedException | URISyntaxException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							if(status == true) {
+								System.out.println("\nUsername doesn't exist!");
+							}else {
+								System.out.println("\nExisting username!");
+							}
+							
+						}
+						
 						int level = 0;
 						do {
 							System.out.print("Insert the permission \n1. modify\n2. only view\n>> ");

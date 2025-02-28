@@ -69,6 +69,8 @@ public class NotepadHandler {
 						
 						// TODO
 						//rinomina blocco
+						
+						
 						updateStore();
 						break;
 					case 3:
