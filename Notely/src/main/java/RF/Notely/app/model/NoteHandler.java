@@ -48,16 +48,16 @@ public class NoteHandler {
 					case 4:
 						//TODO
 						//rinomina titolo nota
-						System.out.print("Insert the new title of the note> ");
-						String title = user_input.nextLine();
+						String title = null;
+						WSC.editNoteTitle(title, selected.id);
 						exit = true;
 						break;
 					case 3:
 						
 						//TODO
 						//Modifica il body della nota
-						System.out.print("Insert the new body of the notepad> ");
-						String new_body = user_input.nextLine();
+						String body = null;
+						WSC.editNoteBody(body, selected.id);
 						exit = true;
 						break;
 					case 2:

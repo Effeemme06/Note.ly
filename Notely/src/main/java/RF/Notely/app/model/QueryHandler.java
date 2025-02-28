@@ -156,7 +156,33 @@ public enum QueryHandler {
             }
             throw new IllegalArgumentException("Invalid arguments for SHARE_NOTE");
         }
+	}, 
+	EDIT_NOTE_TITLE {
+		@Override
+        public Query newQuery(Object... args) {
+            if (args.length == 2 && args[0] instanceof String && args[1] instanceof Integer) {
+                Query query = new Query(RequestMethod.PUT).setRoute("editNoteTitle");
+                query.addParameter("newTitle", args[0]);
+                query.addParameter("noteID", args[1]);
+                return query;
+            }
+            throw new IllegalArgumentException("Invalid arguments for EDIT_NOTE_TITLE");
+        }
+	}, 
+	EDIT_NOTE_BODY {
+		@Override
+        public Query newQuery(Object... args) {
+            if (args.length == 2 && args[0] instanceof String && args[1] instanceof Integer) {
+                Query query = new Query(RequestMethod.PUT).setRoute("editNoteBody");
+                query.addParameter("newBody", args[0]);
+                query.addParameter("noteID", args[1]);
+                return query;
+            }
+            throw new IllegalArgumentException("Invalid arguments for EDIT_NOTE_BODY");
+        }
 	};
+	
+	
 	
 
     public abstract Query newQuery(Object... args);

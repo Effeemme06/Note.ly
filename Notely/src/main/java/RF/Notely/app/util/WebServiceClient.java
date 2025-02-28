@@ -284,4 +284,46 @@ public class WebServiceClient {
 		
 	}
 
+	public boolean editNoteTitle(String newTitle, Integer noteID) throws Exception {
+		String json = QueryHandler.EDIT_NOTE_TITLE
+				.newQuery(newTitle, noteID)
+				.setRequestMethod(RequestMethod.PUT)
+				.addResponseMethod(RSP_MTHD)
+				.build();
+//		System.out.println(json);
+		URI uri = new URI(this.baseUrl);
+		
+		HttpRequest req = HttpRequest.newBuilder().uri(uri).header("Content-Type", "application/json").PUT(HttpRequest.BodyPublishers.ofString(json.toString())).build();
+		HttpResponse<String> res = this.client.send(req, BodyHandlers.ofString());
+
+		if (res.statusCode() == 201) { // 201 = Created
+			return true;
+		} else {
+			System.err.println("Errore HTTP: " + res.statusCode() + " - " + res.body());
+			return false;
+		}
+		
+	}
+	
+	public boolean editNoteBody(String newBody, Integer noteID) throws Exception {
+		String json = QueryHandler.EDIT_NOTE_BODY
+				.newQuery(newBody, noteID)
+				.setRequestMethod(RequestMethod.PUT)
+				.addResponseMethod(RSP_MTHD)
+				.build();
+//		System.out.println(json);
+		URI uri = new URI(this.baseUrl);
+		
+		HttpRequest req = HttpRequest.newBuilder().uri(uri).header("Content-Type", "application/json").PUT(HttpRequest.BodyPublishers.ofString(json.toString())).build();
+		HttpResponse<String> res = this.client.send(req, BodyHandlers.ofString());
+
+		if (res.statusCode() == 201) { // 201 = Created
+			return true;
+		} else {
+			System.err.println("Errore HTTP: " + res.statusCode() + " - " + res.body());
+			return false;
+		}
+		
+	}
+
 }
