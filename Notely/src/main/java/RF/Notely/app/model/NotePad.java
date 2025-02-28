@@ -23,7 +23,7 @@ public class NotePad {
 	protected String description;
     @XmlElement(name = "Note")
     protected List<Note> notes;
-    @XmlAttribute(required = true)
+    @XmlAttribute
     protected Integer id;
 
     

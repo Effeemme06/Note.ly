@@ -144,9 +144,30 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
                         $note->addChild('title', htmlspecialchars($note_row['titolo']));
                         $note->addChild('body', htmlspecialchars($note_row['corpo']));
                     }
-    
+
+                    
                     $stmt_notes->close();
                 }
+                
+                $sql_shared = "SELECT n.id, n.titolo, n.corpo FROM utente t JOIN appartiene ap ON ap.id_utente = t.id JOIN nota n ON ap.id_nota = n.id WHERE t.token = ?";
+                $stmt_shared = $conn->prepare($sql_shared);
+                $stmt_shared->bind_param("s", $_GET["token"]);
+                $stmt_shared->execute();
+                $result_shared = $stmt_shared->get_result();
+
+                $notepad = $xml->addChild('NotePad');
+                $notepad->addAttribute('id', -2);
+                $notepad->addChild('title', "Shared Notes");
+                $notepad->addChild('description', "...");
+
+                while ($shared_row = $result_shared->fetch_assoc()) {
+                    $note = $notepad->addChild('Note');
+                    $note->addAttribute('id', $shared_row['id']);  // Attributo id
+                    $note->addChild('title', htmlspecialchars($shared_row['titolo']));
+                    $note->addChild('body', htmlspecialchars($shared_row['corpo']));
+                }
+
+                $stmt_shared->close();
     
                 http_response_code(200);
             } else {

@@ -69,7 +69,6 @@ public class NotepadHandler {
 						
 						// TODO
 						//rinomina blocco
-						
 						WSC.editNotepadTitle(title, selected.id);
 						updateStore();
 						break;

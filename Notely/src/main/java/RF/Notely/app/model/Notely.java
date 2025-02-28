@@ -55,13 +55,17 @@ public class Notely {
 						break;
 					case 4:
 							//note condivise
+							Store notepad_s = WSC.getNotepads();
+							ntpHandler.GenerateMenu(-2, notepad_s);
 						break;
 					case 3:
 							//lista blocco appunti per eliminare
 							Store notepads_1 = WSC.getNotepads();
 							System.out.println("\n==========ELENCO BLOCCHI NOTE==========\n");
 							for (NotePad np : notepads_1.getNotePads()) {
-								System.out.println("- "+ np.getTitle()+" (" + np.getID() + ")");
+								if(np.getID()>0) {									
+									System.out.println("\t- "+ np.getTitle()+" (" + np.getID() + ")");
+								}
 							}
 							System.out.println("\nDelete notepad:\n>>");
 							selection = user_input.nextInt();
@@ -82,7 +86,9 @@ public class Notely {
 							System.out.println("\n==========ELENCO BLOCCHI NOTE==========\n");
 //							System.out.println(notepads);
 							for (NotePad np : notepads.getNotePads()) {
-								System.out.println("- "+ np.getTitle()+" (" + np.getID() + ")");
+								if(np.getID()>0) {
+									System.out.println("\t- "+ np.getTitle()+" (" + np.getID() + ")");
+								}
 							}
 							System.out.println("\nSelect notepad:\n>>");
 							selection = user_input.nextInt();
