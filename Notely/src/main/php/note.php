@@ -264,6 +264,30 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 http_response_code(400);
             }
         }
+    } else if(isset($data["route"]) && $data["route"] == "editNoteTitle"){
+        if(isset($data["newTitle"], $data["noteID"])){
+            //Modifico il titolo della nota specificata
+            $sql = "UPDATE nota SET titolo = ? WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("si", $data["newTitle"], $data["noteID"]);
+            if($stmt->execute()){
+                http_response_code(200);
+            }else{
+                http_response_code(400);
+            }
+        }
+    } else if(isset($data["route"]) && $data["route"] == "editNoteBody"){
+        if(isset($data["newBody"], $data["noteID"])){
+            //Modifico il titolo della nota specificata
+            $sql = "UPDATE nota SET corpo = ? WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("si", $data["newBody"], $data["noteID"]);
+            if($stmt->execute()){
+                http_response_code(200);
+            }else{
+                http_response_code(400);
+            }
+        }
     } 
 
 } else if ($_SERVER['REQUEST_METHOD'] == "DELETE"){
