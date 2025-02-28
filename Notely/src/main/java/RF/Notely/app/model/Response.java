@@ -1,5 +1,7 @@
 package RF.Notely.app.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -9,12 +11,15 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Response")
 public class Response {
     
+	@JsonProperty("statusCode")
     @XmlElement(name = "statusCode")
     private int statusCode;
     
+	@JsonProperty("result")
     @XmlElement(name = "result")
     private Object result;
     
+	@JsonProperty("error")
     @XmlElement(name = "error")
     private Object error;
 

@@ -21,7 +21,6 @@ import RF.Notely.app.model.RequestMethod;
 import RF.Notely.app.model.ResponseMethod;
 import RF.Notely.app.model.ResponseMethod.Mode;
 import RF.Notely.app.model.Store;
-import RF.Notely.app.util.XmlUtils;
 import jakarta.xml.bind.JAXBException;
 
 public class WebServiceClient {
@@ -36,7 +35,7 @@ public class WebServiceClient {
 		this.RSP_MTHD = new ResponseMethod(Mode.XML_REQUEST_METHOD);
 	}
 
-	public AuthenticationResult authenticateClient(String token) throws JAXBException, WebServiceException, IOException, InterruptedException, URISyntaxException {
+	public AuthenticationResult authenticateClient(String token) throws Exception {
 		String query = QueryHandler.AUTHENTICATE_USER
 				.newQuery(token)
 				.setRequestMethod(RequestMethod.GET)
@@ -64,7 +63,8 @@ public class WebServiceClient {
 
 		String body = (String) res.body();
 		// System.out.println("received: " + body);
-		return XmlUtils.unmarshal(AuthenticationResult.class, body);
+		return Deserializer.deserialize(AuthenticationResult.class, body, RSP_MTHD);
+//		return XmlUtils.unmarshal(AuthenticationResult.class, body);
 		
 	}
 	
@@ -88,7 +88,7 @@ public class WebServiceClient {
 		
 	}
 	
-	public AuthenticationResult registerUser(String login, String nome, String cognome) throws JAXBException, WebServiceException, IOException, InterruptedException, URISyntaxException {
+	public AuthenticationResult registerUser(String login, String nome, String cognome) throws Exception {
 		String query = QueryHandler.ADD_USER
 				.newQuery(login, nome, cognome)
 				.setRequestMethod(RequestMethod.POST)
@@ -105,7 +105,8 @@ public class WebServiceClient {
 
 		String body = (String) res.body();
 		// System.out.println("received: " + body);
-		return XmlUtils.unmarshal(AuthenticationResult.class, body);
+		return Deserializer.deserialize(AuthenticationResult.class, body, RSP_MTHD);
+//		return XmlUtils.unmarshal(AuthenticationResult.class, body);
 		
 	}
 
@@ -144,7 +145,8 @@ public class WebServiceClient {
 		
 		String body = (String) res.body();
 		// System.out.println("received: " + body);
-		return XmlUtils.unmarshal(NotePad.class, body);
+		return Deserializer.deserialize(NotePad.class, body, RSP_MTHD);
+//		return XmlUtils.unmarshal(NotePad.class, body);
 	}
 
 	public Store getNotepads() throws Exception {
@@ -176,7 +178,7 @@ public class WebServiceClient {
 		String body = (String) res.body();
 //		System.out.println("XML ricevuto:\n" + body);
 
-		return XmlUtils.unmarshal(Store.class, body);
+		return Deserializer.deserialize(Store.class, body, RSP_MTHD);
 	}
 
 	public boolean createNotepad(String title, String description) throws Exception {

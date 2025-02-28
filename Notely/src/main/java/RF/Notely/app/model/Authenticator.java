@@ -103,7 +103,7 @@ public class Authenticator {
 			AuthenticationResult AR = WSC.registerUser(user, nome, cognome);
 			System.out.println("\nSei stato registrato nel sistema! Questo e' il tuo token, non condividerlo con nessuno:\n\tTOKEN:\t" + AR.token);
 			this.TOKEN = AR.token;
-		} catch (JAXBException | WebServiceException | IOException | InterruptedException | URISyntaxException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

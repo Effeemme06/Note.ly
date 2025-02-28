@@ -1,5 +1,7 @@
 package RF.Notely.app.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -9,14 +11,19 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "AuthenticationResults")
 public class AuthenticationResult {
 	
+	@JsonProperty("success")
 	@XmlElement(name = "success")
 	public Boolean success;
+	@JsonProperty("userID")
 	@XmlElement(name = "userID")
 	public Integer userID;
+	@JsonProperty("token")
 	@XmlElement(name = "token")
 	public String token;
+	@JsonProperty("message")
 	@XmlElement(name = "message")
 	public String message;
+	@JsonProperty("error")
 	@XmlElement(name = "error")
 	public String error;
 	
