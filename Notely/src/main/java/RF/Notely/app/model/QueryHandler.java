@@ -23,7 +23,7 @@ public enum QueryHandler {
                 Query query = new Query(RequestMethod.POST).setRoute("newNote");
                 query.addParameter("title", args[0]);
                 query.addParameter("body", args[1]);
-                query.addParameter("userID", args[2]);
+                query.addParameter("notepad_id", args[2]);
                 return query;
             }
             throw new IllegalArgumentException("Invalid arguments for INSERT_NEW_NOTE");
