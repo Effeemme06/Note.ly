@@ -18,6 +18,13 @@ public class NotepadHandler {
 		
 		boolean exit = true;
 		NotePad selected = null;
+		
+		try {
+			ntp = WSC.getNotepads();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		for (NotePad np : ntp.getNotePads()) {
 			if(np.getID() == id_notepad) {
@@ -33,10 +40,12 @@ public class NotepadHandler {
 		
 		while(exit == false) {
 			
+			
 			System.out.println("\n============ " + selected.getTitle() + " ============\n");
 			try {
+				System.out.println("Note:");
 				for (Note n : selected.getNotes()) {
-					System.out.println("Note:\n\t-" + n.getTitle() + " (" + n.getId() + ")");
+					System.out.println("\t-" + n.getTitle() + " (" + n.getId() + ")");
 				}
 				System.out.println(MENU_NOTEPAD);
 	    		selection = user_input.nextInt();
@@ -56,8 +65,9 @@ public class NotepadHandler {
 						break;
 					case 3:
 						//lista note per eliminare
+						System.out.println("Note:");
 						for (Note n : selected.getNotes()) {
-							System.out.println("Note:\n\t-" + n.getTitle() + " (" + n.getId() + ")");
+							System.out.println("\t-" + n.getTitle() + " (" + n.getId() + ")");
 						}
 						System.out.println("\nDelete note:\n>>");
 						selection = user_input.nextInt();
@@ -72,8 +82,9 @@ public class NotepadHandler {
 						WSC.createNote(title_note, body, id_notepad);
 						break;
 					case 1:
+						System.out.println("Note:");
 						for (Note n : selected.getNotes()) {
-							System.out.println("Note:\n\t-" + n.getTitle() + " (" + n.getId() + ")");
+							System.out.println("\t-" + n.getTitle() + " (" + n.getId() + ")");
 						}
 						System.out.println("\nSelect note:\n>>");
 						selection = user_input.nextInt();

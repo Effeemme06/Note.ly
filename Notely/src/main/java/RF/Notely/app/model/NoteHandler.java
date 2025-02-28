@@ -33,6 +33,8 @@ public class NoteHandler {
 		
 		while(exit == false) {
 			
+			
+			
 			try {
 				System.out.println("\n============ " + selected.getTitle() + " ============\n");				
 				System.out.println("\n"+ selected.getBody()+"\n");
@@ -46,12 +48,13 @@ public class NoteHandler {
 					case 4:
 						//TODO
 						//rinomina titolo nota
+						exit = true;
 						break;
 					case 3:
 						
 						//TODO
 						//Modifica il body della nota
-						
+						exit = true;
 						break;
 					case 2:
 						//elimina
