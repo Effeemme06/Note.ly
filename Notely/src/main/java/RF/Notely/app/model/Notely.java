@@ -9,16 +9,20 @@ import RF.Notely.app.util.WebServiceClient;
 public class Notely {
 	
 	private static String MENU = "\n\n================MENU'================\n\n"
-			+ "1.\tSelect Notepads\n2.\tCreate Notepad\n3.\tDelete Notepad\n4.\tSwap XML/JSON\n0.\tLogout\n>>";
+			+ "1.\tSelect Notepads\n2.\tCreate Notepad\n3.\tDelete Notepad\n4.\tViews shared notes\n5.\tSwap XML/JSON\n0.\tLogout\n>>";
 	private static Notely instance;
     private Authenticator AUTH;
     private WebServiceClient WSC;
     private Scanner user_input;
+    private NotepadHandler ntpHandler;
+    private NoteHandler ntHandler;
     
     private Notely() {
     	WSC = new WebServiceClient("http://localhost/Notely/Notely/src/main/php/note.php");
     	AUTH = new Authenticator();
     	user_input = new Scanner(System.in);
+    	ntpHandler = new NotepadHandler();
+    	ntHandler = new NoteHandler();
     }
 
     public static synchronized Notely getInstance() {
@@ -46,11 +50,22 @@ public class Notely {
 	    		selection = user_input.nextInt();
 	    		user_input.nextLine();
 	    		switch (selection) {
-					case 4:
+					case 5:
 						WSC.swapXML_JSON();
+						break;
+					case 4:
+							//note condivise
 						break;
 					case 3:
 							//lista blocco appunti per eliminare
+							Store notepads_1 = WSC.getNotepads();
+							System.out.println("\n==========ELENCO BLOCCHI NOTE==========\n");
+							for (NotePad np : notepads_1.getNotePads()) {
+								System.out.println("- "+ np.getTitle()+" (" + np.getID() + ")");
+							}
+							System.out.println("\nDelete notepad:\n>>");
+							selection = user_input.nextInt();
+							WSC.deleteNotepad(selection);
 						break;
 					case 2:
 							//classe che crea il blocco appunti
@@ -70,9 +85,8 @@ public class Notely {
 								System.out.println("- "+ np.getTitle()+" (" + np.getID() + ")");
 							}
 							System.out.println("\nSelect notepad:\n>>");
-							NotepadHandler nphHandler = new NotepadHandler();
 							selection = user_input.nextInt();
-							nphHandler.GenerateMenu(selection, notepads);
+							ntpHandler.GenerateMenu(selection, notepads);
 							
 						break;
 					default:
@@ -86,4 +100,31 @@ public class Notely {
 //    	End APP Loop -----------------------
     	
     }
+
+	public WebServiceClient getWSC() {
+		return WSC;
+	}
+
+	public void setWSC(WebServiceClient wSC) {
+		WSC = wSC;
+	}
+
+	public NotepadHandler getNtpHandler() {
+		return ntpHandler;
+	}
+
+	public void setNtpHandler(NotepadHandler ntpHandler) {
+		this.ntpHandler = ntpHandler;
+	}
+
+	public NoteHandler getNtHandler() {
+		return ntHandler;
+	}
+
+	public void setNtHandler(NoteHandler ntHandler) {
+		this.ntHandler = ntHandler;
+	}
+    
+    
+    
 }

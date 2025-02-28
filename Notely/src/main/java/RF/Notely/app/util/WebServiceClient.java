@@ -200,9 +200,9 @@ public class WebServiceClient {
 	    }
 	}
 	
-	public boolean createNote(String title, String body) throws Exception {
+	public boolean createNote(String title, String body, Integer notepad_id) throws Exception {
 		String json = QueryHandler.INSERT_NEW_NOTE
-				.newQuery(title, body)
+				.newQuery(title, body, notepad_id)
 				.setRequestMethod(RequestMethod.PUT)
 				.addResponseMethod(RSP_MTHD)
 				.addToken(AUTH)

@@ -241,11 +241,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             http_response_code(400);
         }
         
-    } else if(isset($data['route'], $data['title'] , $data['body'], $data['token']) && $data['route'] == "newNote"){
+    } else if(isset($data['route'], $data['title'] , $data['body'], $data['token']), $data['notepad_id'] && $data['route'] == "newNote"){
         //Aggiugo la nota nel database
         $sql = "INSERT INTO nota (titolo, corpo, id_blocco) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssi", $data['title'], $data['body'], $data['id']);
+        $stmt->bind_param("ssi", $data['title'], $data['body'], $data['notepad_id']);
         if($stmt->execute()){
             http_response_code(201);
         }else{
