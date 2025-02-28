@@ -1,7 +1,44 @@
 <?php
 
+
+/**
+ * Web Service note.php
+ */
+
+ /**
+ * DocBlock riferito alla classe MyClass.
+ *
+ * Il web service funziona con un'autenticazione tramite token: 
+ *   - Alla registrazione di un nuovo utente viene creato un token di 16 cifre alfanumeriche
+ *    - ad ogni accesso sarà necessario questo token 
+ * 
+ * 
+ * Il web service prevede le seguenti operazioni:
+ * - auth, che attraverso il token verifica la validità di quest'ultimo (metodo GET, restituisce l'id dell'utente)
+ * - checkUsername, che verifica se uno username è già stato utilizzato (metodo GET, restituisce true o false)
+ * - fetchNotepads, che restituisce tutti i blocchi appunti e le note associate ad un utente (metodo GET)
+ * - addUser, aggiunge uno user ricenvendo username, nome, cognome e generando il suo token (metodo POST, restituisce il token)
+ * - createNotepad, crea un blocco appunti (metodo PUT)
+ * - newNote, crea una nuova nota (metodo PUT)
+ * - shareNote, condifide una nota ad un utente (metodo PUT)
+ * - createNotepad, crea un blocco appunti (metodo PUT)
+ * - editNoteTitle, modifica il titolo di una nota (metodo PUT)
+ * - editNoteBody, modifica il corpo di una nota (metodo PUT)
+ * - editNotepadBody, modifica il nome di un blocco appunti (metodo PUT)
+ * - deleteNotepad, elimina un blocco appunti (metodo DELETE)
+ * - deleteNote, elimina una nota (metodo DELETE)
+ * 
+ * 
+ * Specificando il parametro mod, il web service sarà in grado di generare ogni risposta in XML o in JSON ("xml" o "json" nel parametro mod)
+ * 
+ * 
+ */
+
+
+
 $conn = new mysqli("localhost", "root", "", "notely");
 
+//funzione che verifica se un token è presente
 function isTokenUsed($token)
 {
 
@@ -24,6 +61,7 @@ function isTokenUsed($token)
     }
 }
 
+//funzione che genera il token
 function generateToken($length = 16)
 {
 
@@ -34,7 +72,11 @@ function generateToken($length = 16)
     return $token;
 }
 
+
+//operazioni GET
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
+
+    //autenticazione (si controlla che il token corrisponda)
     if (isset($_GET["auth"])) {
 
         if (isset($_GET["token"]) && isset($_GET["mod"])) {
@@ -74,6 +116,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         } else {
             http_response_code(400);
         }
+
+    //si controlla che lo username esista
     } else if (isset($_GET["checkUsername"])) {
 
         if (isset($_GET["username"]) && isset($_GET["mod"])) {
@@ -111,6 +155,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         } else {
             http_response_code(400);
         }
+
+    //si restituiscono tutti i blocchi appunti di un utente 
     } else if (isset($_GET["fetchNotepads"])) {
 
         if (isset($_GET['token'], $_GET['mod'])) {
@@ -191,7 +237,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 }
 
 
-
+//operazioni POST
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if (isset($_POST["addUser"])) {
@@ -246,6 +292,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     } else {
         http_response_code(400);
     }
+
+//operazioni PUT
 } else if ($_SERVER['REQUEST_METHOD'] == "PUT") {
 
     // Recupero i dati dal php://input
@@ -323,11 +371,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
     } 
 
+
+//operazioni DELETE
 } else if ($_SERVER['REQUEST_METHOD'] == "DELETE"){
     
     // Recupero i dati dal php://input
     $data = json_decode(file_get_contents('php://input'), true);
 
+    //eliminazione blocchi appunti
     if(isset($data['route'], $data['notepadID']) && $data['route'] == "deleteNotepad"){
         //Elinino il blocco note nel database
         $sql = "DELETE FROM blocco WHERE id = ?";
@@ -338,6 +389,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }else{
             http_response_code(400);
         }
+
+    //eliminazione nota
     } else if(isset($data['route'], $data['noteID']) && $data['route'] == "deleteNote"){
         //Elinino la nota nel database
         $sql = "DELETE FROM nota WHERE id = ?";
@@ -353,3 +406,5 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 }
 
 $conn->close();
+
+?>
