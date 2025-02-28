@@ -28,13 +28,26 @@ public class NotepadHandler {
 				break;
 			}
 		}
-		
+
 		
 		
 		int selection = 0;
 		
 		while(exit == false) {
 			
+			try {
+				updateStore();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			for (NotePad np : store.getNotePads()) {
+				if(np.getID() == id_notepad) {
+					selected = np;
+					break;
+				}
+			}
 			
 			System.out.println("\n============ " + selected.getTitle() + " ============\n");
 			try {
