@@ -94,12 +94,12 @@ public class NoteHandler {
 							
 						}
 						
-						int level = 0;
-						do {
-							System.out.print("Insert the permission \n1. modify\n2. only view\n>> ");
-							level = user_input.nextInt();
-							user_input.nextLine();
-						}while(level<1 || level>2);
+						int level = 1;
+						//do {
+						//	System.out.print("Insert the permission \n1. modify\n2. only view\n>> ");
+						//	level = user_input.nextInt();
+						//	user_input.nextLine();
+						//}while(level<1 || level>2);
 						WSC.shareNote(id_note, username, level);
 						break;
 					default:
