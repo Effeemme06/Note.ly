@@ -38,6 +38,7 @@ public class NoteHandler {
 				System.out.println("\n"+ selected.getBody()+"\n");
 				System.out.println(MENU_NOTE);
 	    		selection = user_input.nextInt();
+	    		user_input.nextLine();
 	    		switch (selection) {
 					case 0:
 						exit = true;
@@ -59,12 +60,14 @@ public class NoteHandler {
 						break;
 					case 1:
 						//condividi
+						
 						System.out.print("Insert the person username> ");
 						String username = user_input.nextLine();
 						int level = 0;
 						do {
 							System.out.print("Insert the permission \n1. modify\n2. only view\n>> ");
-							level = user_input.nextInt();							
+							level = user_input.nextInt();
+							user_input.nextLine();
 						}while(level<1 || level>2);
 						WSC.shareNote(id_note, username, level);
 						break;

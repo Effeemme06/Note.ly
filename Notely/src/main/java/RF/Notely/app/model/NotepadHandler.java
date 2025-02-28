@@ -40,6 +40,7 @@ public class NotepadHandler {
 				}
 				System.out.println(MENU_NOTEPAD);
 	    		selection = user_input.nextInt();
+	    		user_input.nextLine();
 	    		switch (selection) {
 					case 0:
 						exit = true;
